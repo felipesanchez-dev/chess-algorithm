@@ -1,162 +1,733 @@
 # 🧠 Ajedrez con Red Neuronal Avanzada e Interfaz Gráfica
 
+Un sistema completo de ajedrez con inteligencia artificial que utiliza redes neuronales profundas para aprender y mejorar automáticamente jugando partidas.
+
+## 📋 Tabla de Contenidos
+
+- [🎮 Características Principales](#-características-principales)
+- [🧠 Arquitectura de la Red Neuronal](#-arquitectura-de-la-red-neuronal)
+- [🎯 Diagramas del Sistema](#-diagramas-del-sistema)
+- [🚀 Instalación y Uso](#-instalación-y-uso)
+- [📊 Sistema de Análisis de Datos](#-sistema-de-análisis-de-datos)
+- [🔧 Configuración Avanzada](#-configuración-avanzada)
+- [📈 Resultados Esperados](#-resultados-esperados)
+- [🛠️ Arquitectura Técnica](#-arquitectura-técnica)
+
 ## 🎮 Características Principales
 
-### 🖥️ Interfaz Gráfica Mejorada
-- **Panel de Control Lateral**: Muestra estadísticas en tiempo real, controles y estado del juego
-- **Botones Interactivos**: 
-  - ✅ **Nueva Partida**: Reinicia el juego instantáneamente
-  - 💾 **Guardar Modelo**: Guarda el progreso de la IA manualmente
-  - 📊 **Ver Análisis**: Muestra análisis detallado del progreso de aprendizaje
-  - 🤖 **Modo Auto**: Activa/desactiva el juego automático continuo
-  - 🚪 **Salir**: Cierra el juego y guarda automáticamente
-- **Información en Tiempo Real**:
-  - 📈 Estadísticas de victorias/derrotas/empates
-  - 🎯 Precisión del modelo
-  - 🧠 Tasa de aprendizaje actual
-  - ⏱️ Tiempo de partida
-  - ♟️ Número de movimientos
+### 🖥️ Interfaz Gráfica Completa
+- **Panel de Control Lateral (300px)**: Estadísticas en tiempo real y controles
+- **Tablero Interactivo (650px)**: Visualización con coordenadas y piezas
+- **Sistema de Coronación**: Menú interactivo para promoción de peones
+- **Botones Inteligentes**: Con efectos hover y funcionalidad específica
 
-### 🤖 Modo Automático
-- **Aprendizaje Continuo**: Después de cada jaque mate, automáticamente inicia una nueva partida
-- **Entrenamiento Intensivo**: Permite que la IA juegue cientos de partidas sin intervención
-- **Tiempo de Espera**: 3 segundos entre partidas para visualizar resultados
+### 🤖 Sistema de IA Avanzado
+- **Red Neuronal Profunda**: 4 capas con 400,000+ parámetros
+- **Aprendizaje Automático**: Mejora continua después de cada partida
+- **Evaluación Híbrida**: Combina análisis neural y tradicional
+- **Experience Replay**: Reutiliza hasta 10,000 experiencias previas
 
-### 🎯 Controles del Juego
+### 🎯 Controles y Funcionalidades
 
 #### 🖱️ Controles del Mouse
-- **Clic Izquierdo**: Seleccionar pieza y realizar movimientos
-- **Botones del Panel**: Interactuar con las funciones del juego
+- **Selección de Piezas**: Clic izquierdo para seleccionar piezas blancas
+- **Movimientos Legales**: Casillas verdes muestran movimientos válidos
+- **Coronación Interactiva**: Menú emergente para promoción de peones
+- **Botones del Panel**: Interacción con todas las funciones
 
 #### ⌨️ Controles del Teclado
 - **R**: Reiniciar nueva partida
 - **M**: Activar/desactivar modo automático
-- **A**: Mostrar análisis de progreso en consola
+- **A**: Mostrar análisis de progreso
 - **S**: Guardar modelo manualmente
 - **Q**: Salir del juego
+- **Q/R/B/N**: Coronación rápida (Dama/Torre/Alfil/Caballo)
 
-### 🧠 Red Neuronal Avanzada
+## 🧠 Arquitectura de la Red Neuronal
 
-#### 🏗️ Arquitectura
-- **Entrada**: 768 neuronas (8x8x12 - representación completa del tablero)
-- **Capas Ocultas**: [512, 256, 128] neuronas con activación Leaky ReLU
-- **Salida**: 1 neurona con activación Tanh para evaluación de posición
-- **Funciones de Activación**: Leaky ReLU para capas ocultas, Tanh para salida
+### 🏗️ Estructura de la Red
 
-#### 🎯 Características de Evaluación
-- **Balance Material**: Suma del valor de todas las piezas
-- **Actividad de Piezas**: Bonificación por piezas en posiciones centrales
-- **Seguridad del Rey**: Evaluación de la protección del rey
-- **Estructura de Peones**: Análisis de peones doblados, aislados y pasados
-- **Control del Centro**: Evaluación del dominio de casillas centrales
-- **Fase del Juego**: Identificación automática de apertura, medio juego y final
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    RED NEURONAL AVANZADA                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│                   INPUT LAYER (768 neuronas)                    │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │         Representación del Tablero: 8x8x12 = 768       │  │
+│    │         • 8x8 casillas del tablero                     │  │
+│    │         • 12 tipos de piezas (6 blancas + 6 negras)    │  │
+│    │         • Codificación one-hot para cada pieza         │  │
+│    └─────────────────────────────────────────────────────────┘  │
+│                                 │                               │
+│                                 ▼                               │
+│                  HIDDEN LAYER 1 (512 neuronas)                 │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │         Activación: Leaky ReLU (α=0.01)                │  │
+│    │         Función: f(x) = max(0.01x, x)                  │  │
+│    │         Inicialización: Xavier/He Normal                │  │
+│    └─────────────────────────────────────────────────────────┘  │
+│                                 │                               │
+│                                 ▼                               │
+│                  HIDDEN LAYER 2 (256 neuronas)                 │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │         Activación: Leaky ReLU (α=0.01)                │  │
+│    │         Extracción de patrones tácticos                │  │
+│    │         Reconocimiento de estructuras                  │  │
+│    └─────────────────────────────────────────────────────────┘  │
+│                                 │                               │
+│                                 ▼                               │
+│                  HIDDEN LAYER 3 (128 neuronas)                 │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │         Activación: Leaky ReLU (α=0.01)                │  │
+│    │         Análisis estratégico de alto nivel              │  │
+│    │         Evaluación de posiciones complejas             │  │
+│    └─────────────────────────────────────────────────────────┘  │
+│                                 │                               │
+│                                 ▼                               │
+│                    OUTPUT LAYER (1 neurona)                    │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │         Activación: Tanh                               │  │
+│    │         Rango: [-1, +1]                                │  │
+│    │         • -1: Posición muy mala para blancas           │  │
+│    │         •  0: Posición equilibrada                     │  │
+│    │         • +1: Posición muy buena para blancas          │  │
+│    └─────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-#### 🔄 Aprendizaje Adaptativos
-- **Experience Replay**: Entrena con experiencias pasadas (hasta 10,000 posiciones)
-- **Tasa de Aprendizaje Adaptativa**: Decae gradualmente con la experiencia
-- **Etiquetado Sofisticado**: Considera características especiales como jaque, amenaza de mate
-- **Entrenamiento Multi-Época**: 15 épocas por partida para mejor convergencia
 
-### 📊 Sistema de Análisis de Datos
+### 🔢 Parámetros del Modelo
 
-#### 📁 Archivos CSV Generados
-1. **game_statistics.csv**: Estadísticas por partida
-   - Timestamp, número de partida, resultado, duración, tasa de aprendizaje
-2. **move_analysis.csv**: Análisis detallado de movimientos
-   - Evaluación neural vs tradicional, mejor movimiento, coordenadas
-3. **position_evaluations.csv**: Evaluaciones de posiciones
-   - FEN, evaluación neural, fase del juego, balance material
-4. **learning_progress.csv**: Progreso del aprendizaje
-   - Pérdida, precisión, tasa de aprendizaje por época
+| Componente | Cantidad | Descripción |
+|------------|----------|-------------|
+| **Pesos Totales** | 409,345 | Conexiones entre neuronas |
+| **Bias** | 897 | Términos de sesgo |
+| **Parámetros Totales** | 410,242 | Parámetros entrenable |
+| **Capas** | 4 | 1 entrada + 2 ocultas + 1 salida |
+| **Conexiones** | 768→512→256→128→1 | Arquitectura completamente conectada |
 
-#### 🔍 Funciones de Análisis
-- **Análisis de Progreso**: Tendencias de mejora a lo largo del tiempo
-- **Exportación de Resumen**: Resumen completo del entrenamiento
-- **Estadísticas en Tiempo Real**: Visualización continua del progreso
+### 🎯 Funciones de Activación
 
-### 🎨 Mejoras Visuales
+#### Leaky ReLU (Capas Ocultas)
+```
+f(x) = max(0.01x, x)
 
-#### 🎨 Interfaz
-- **Colores Intuitivos**: 
-  - 🟡 Pieza seleccionada
-  - 🟢 Movimientos legales
-  - 🔴 Jaque mate
-  - 🟠 Jaque/empate
-- **Coordenadas del Tablero**: Letras y números para fácil referencia
-- **Hover Effects**: Botones que cambian de color al pasar el mouse
+Gráfico:
+     │
+   1 │     ╱
+     │    ╱
+     │   ╱
+   0 │──╱──────────
+     │ ╱
+-0.01│╱
+     └──────────────
+    -1  0    1
+```
 
-#### 📱 Responsive Design
-- **Ventana Expandida**: 950px de ancho (650px tablero + 300px panel)
-- **Información Organizada**: Panel lateral con toda la información importante
-- **Fuentes Apropiadas**: Diferentes tamaños para mejor legibilidad
+#### Tanh (Capa de Salida)
+```
+f(x) = (e^x - e^(-x)) / (e^x + e^(-x))
+
+Gráfico:
+   1 │  ████████
+     │ ██     ██
+     │██       ██
+   0 │──██───────██──
+     │   ██     ██
+     │    ████████
+  -1 │
+     └─────────────────
+    -2    0    2
+```
+
+
+## 🎯 Diagramas del Sistema
+
+### 🔄 Flujo de Aprendizaje
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      CICLO DE APRENDIZAJE                       │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│    JUEGO    │    │ RECOLECCIÓN │    │ENTRENAMIENTO│    │   MEJORA    │
+│   ACTIVO    │───►│    DATOS    │───►│ RED NEURONAL│───►│   MODELO    │
+│             │    │             │    │             │    │             │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+       │                   │                   │                   │
+       │                   │                   │                   │
+       ▼                   ▼                   ▼                   ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│• Jugador    │    │• Posiciones │    │• Backprop   │    │• Pesos      │
+│  mueve      │    │• Evaluación │    │• 15 épocas  │    │  actualizados│
+│• IA evalúa  │    │• Movimientos│    │• Experience │    │• Estadísticas│
+│• IA mueve   │    │• Resultado  │    │  Replay     │    │• Guardado   │
+│• Repite     │    │• Contexto   │    │• Gradientes │    │• CSV        │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+```
+
+
+### 📊 Sistema de Evaluación Híbrida
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                EVALUACIÓN HÍBRIDA DE MOVIMIENTOS                │
+└─────────────────────────────────────────────────────────────────┘
+
+                    POSICIÓN DEL TABLERO
+                            │
+                ┌───────────┴───────────┐
+                │                       │
+                ▼                       ▼
+        ┌─────────────┐         ┌─────────────┐
+        │ EVALUACIÓN  │         │ EVALUACIÓN  │
+        │   NEURAL    │         │TRADICIONAL  │
+        │             │         │             │
+        │• Red Neural │         │• Alfabeta   │
+        │• Patrones   │         │• Material   │
+        │• Aprende    │         │• Posición   │
+        └─────────────┘         └─────────────┘
+                │                       │
+                │       PESOS           │
+                │     ADAPTATIVOS       │
+                │                       │
+                ▼                       ▼
+        ┌─────────────────────────────────────────┐
+        │         COMBINACIÓN INTELIGENTE         │
+        │                                         │
+        │     Score = (w₁ × Neural) +             │
+        │             (w₂ × Tradicional)          │
+        │                                         │
+        │     donde w₁ + w₂ = 1                   │
+        │     w₁ aumenta con experiencia          │
+        └─────────────────────────────────────────┘
+                            │
+                            ▼
+                    MEJOR MOVIMIENTO
+```
+
+
+### 🧩 Análisis de Características
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  EXTRACCIÓN DE CARACTERÍSTICAS                  │
+└─────────────────────────────────────────────────────────────────┘
+
+    ┌─────────┐     ┌─────────┐     ┌─────────┐
+    │MATERIAL │     │POSICIÓN │     │TÁCTICA  │
+    │         │     │         │     │         │
+    │• Peones │     │• Centro │     │• Jaque  │
+    │• Piezas │     │• Reyes  │     │• Mate   │
+    │• Damas  │     │• Castillo│     │• Clavada│
+    └─────────┘     └─────────┘     └─────────┘
+         │               │               │
+         └───────────────┼───────────────┘
+                         │
+                         ▼
+            ┌─────────────────────────┐
+            │    VECTOR DE ENTRADA    │
+            │                         │
+            │  [0.2, 0.8, 0.1, 0.9,   │
+            │   0.3, 0.7, 0.4, 0.6,   │
+            │   0.5, 0.5, 0.0, 1.0,   │
+            │   ... 768 valores ...]  │
+            └─────────────────────────┘
+                         │
+                         ▼
+                  RED NEURONAL
+```
+
+
+### 🔄 Experience Replay
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        EXPERIENCE REPLAY                        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  PARTIDA 1  │    │  PARTIDA 2  │    │  PARTIDA N  │
+│             │    │             │    │             │
+│ Pos₁ → Mov₁ │    │ Pos₁ → Mov₁ │    │ Pos₁ → Mov₁ │
+│ Pos₂ → Mov₂ │    │ Pos₂ → Mov₂ │    │ Pos₂ → Mov₂ │
+│ Pos₃ → Mov₃ │    │ Pos₃ → Mov₃ │    │ Pos₃ → Mov₃ │
+│    ...      │    │    ...      │    │    ...      │
+└─────────────┘    └─────────────┘    └─────────────┘
+       │                   │                   │
+       └───────────────────┼───────────────────┘
+                           │
+                           ▼
+            ┌─────────────────────────┐
+            │    BUFFER DE MEMORIA    │
+            │                         │
+            │ ┌─────┬─────┬─────┬───┐ │
+            │ │Exp₁ │Exp₂ │Exp₃ │...│ │
+            │ └─────┴─────┴─────┴───┘ │
+            │                         │
+            │   Capacidad: 10,000     │
+            │   Política: FIFO        │
+            └─────────────────────────┘
+                           │
+                           ▼
+            ┌─────────────────────────┐
+            │     ENTRENAMIENTO       │
+            │                         │
+            │ • Selección aleatoria   │
+            │ • Batch de 32 ejemplos  │
+            │ • 5 épocas por batch    │
+            │ • Mejora continua       │
+            └─────────────────────────┘
+```
 
 ## 🚀 Instalación y Uso
 
-### 📋 Requisitos
+### 📋 Requisitos del Sistema
+
 ```bash
-pip install pygame chess numpy pandas
+# Dependencias principales
+pip install pygame==2.6.1
+pip install python-chess==1.999
+pip install numpy==1.24.3
+pip install pandas==2.0.3
+
+# Opcional para análisis avanzado
+pip install matplotlib==3.7.1
+pip install seaborn==0.12.2
 ```
 
-### 🏃 Ejecución
+### 🛠️ Instalación
+
 ```bash
+# Clonar o descargar el proyecto
+cd Chess-algoritmo
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Ejecutar el juego
 python main.py
 ```
 
-### 🎮 Uso Básico
-1. **Jugar**: Haz clic en las piezas blancas para seleccionar y mover
-2. **Entrenar**: Juega partidas completas para que la IA aprenda
-3. **Modo Automático**: Activa para entrenamiento continuo sin intervención
-4. **Análisis**: Usa el botón "Ver Análisis" para revisar el progreso
+### 🎮 Guía de Uso
 
-### 🔧 Configuración Avanzada
-- **Tasa de Aprendizaje**: Se adapta automáticamente (0.001 inicial)
-- **Tamaño de Replay**: Hasta 10,000 experiencias almacenadas
-- **Frecuencia de Guardado**: Cada 3 partidas automáticamente
+#### 🎯 Juego Básico
+- **Iniciar**: Ejecuta `python main.py`
+- **Seleccionar**: Haz clic en una pieza blanca
+- **Mover**: Haz clic en una casilla verde resaltada
+- **Coronar**: Usa el menú emergente para promoción de peones
+- **Observar**: La IA aprende y mejora automáticamente
 
-## 📈 Resultados Esperados
+#### 🤖 Modo Automático
+- **Activar**: Presiona el botón "Modo Auto" o tecla 'M'
+- **Observar**: La IA jugará partidas continuas
+- **Aprender**: Se reinicia automáticamente después de cada partida
+- **Monitorear**: Observa las estadísticas en tiempo real
 
-### 🎯 Objetivos de Aprendizaje
-- **Mejora Gradual**: La IA debe mejorar su tasa de victoria con el tiempo
-- **Adaptación de Estilo**: Aprende diferentes estilos de juego según la oposición
-- **Optimización Automática**: Ajusta su evaluación basándose en resultados
+#### 👑 Sistema de Coronación
+- **Automático**: Aparece menú cuando un peón llega al final
+- **Opciones**: Dama (Q), Torre (R), Alfil (B), Caballo (N)
+- **Teclas rápidas**: Q/R/B/N para selección rápida
+- **Por defecto**: Dama si no se selecciona
+## 📊 Sistema de Análisis de Datos
 
-### 📊 Métricas de Éxito
-- **Tasa de Victoria**: Porcentaje de partidas ganadas por la IA
-- **Precisión del Modelo**: Exactitud en la evaluación de posiciones
-- **Convergencia**: Estabilización de la pérdida durante el entrenamiento
+### 📁 Archivos CSV Generados
 
-## 🔮 Características Futuras
+#### 1. game_statistics.csv
+```csv
+timestamp,game_number,result,moves_count,duration,avg_evaluation,learning_rate,win_rate
+2024-01-01T10:00:00,1,1,45,120.5,0.32,0.001000,100.0
+2024-01-01T10:02:30,2,-1,38,98.2,-0.18,0.000995,50.0
+...
+```
 
-### 🎯 Mejoras Planificadas
-- **Análisis de Aperturas**: Reconocimiento y evaluación de aperturas específicas
-- **Evaluación de Finales**: Conocimiento especializado de finales teóricos
-- **Diferentes Niveles**: Múltiples niveles de dificultad
-- **Análisis de Partidas**: Replay y análisis de partidas guardadas
+#### 2. move_analysis.csv
+```csv
+timestamp,game_number,move_number,from_square,to_square,piece_moved,piece_captured,neural_evaluation,traditional_evaluation,combined_evaluation,was_best_move
+2024-01-01T10:00:15,1,1,e2,e4,P,,0.12,0.15,0.129,true
+2024-01-01T10:00:18,1,2,e7,e5,p,,−0.08,−0.12,−0.092,false
+...
+```
 
-### 🎨 Mejoras Visuales
-- **Temas Personalizables**: Diferentes colores y estilos de tablero
-- **Animaciones**: Movimientos animados de piezas
-- **Sonidos**: Efectos sonoros para movimientos y capturas
+#### 3. position_evaluations.csv
+```csv
+timestamp,fen,neural_evaluation,traditional_evaluation,game_phase,material_balance,piece_activity
+2024-01-01T10:00:00,rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1,0.00,0.00,0,0,0.5
+...
+```
 
+#### 4. learning_progress.csv
+```csv
+timestamp,epoch,loss,accuracy,learning_rate,total_games,win_rate
+2024-01-01T10:00:00,0,0.456,65.2,0.001000,1,100.0
+2024-01-01T10:00:01,5,0.234,72.8,0.001000,1,100.0
+...
+```
+
+### 📈 Métricas de Rendimiento
+
+| Métrica | Descripción | Rango Esperado |
+|---------|-------------|----------------|
+| **Tasa de Victoria** | % de partidas ganadas | 0-100% |
+| **Precisión** | % de evaluaciones correctas | 60-90% |
+| **Pérdida** | Error del modelo | 0.1-0.5 |
+| **Tiempo por Movimiento** | Milisegundos | 50-200ms |
+| **Experiencias Almacenadas** | Posiciones en memoria | 0-10,000 |
+## 🔧 Configuración Avanzada
+
+### ⚙️ Parámetros de la Red Neuronal
+
+```python
+# En chess_neural_network.py
+class AdvancedChessNeuralNetwork:
+    def __init__(self, 
+                 input_size=768,           # Tamaño de entrada
+                 hidden_layers=[512, 256, 128],  # Capas ocultas
+                 output_size=1,            # Salida
+                 learning_rate=0.001):     # Tasa de aprendizaje
+```
+
+### 🎛️ Configuración del Aprendizaje
+
+| Parámetro | Valor por Defecto | Descripción |
+|-----------|------------------|-------------|
+| `learning_rate` | 0.001 | Tasa de aprendizaje inicial |
+| `learning_decay` | 0.995 | Factor de decaimiento |
+| `min_learning_rate` | 0.0001 | Mínima tasa de aprendizaje |
+| `max_replay_size` | 10,000 | Tamaño máximo del buffer |
+| `batch_size` | 32 | Tamaño del lote de entrenamiento |
+| `epochs_per_game` | 15 | Épocas por partida |
+
+### 🎨 Personalización Visual
+
+```python
+# En main.py - Colores personalizables
+WHITE = (255, 255, 255)
+GREY = (128, 128, 128)
+YELLOW = (204, 204, 0)      # Pieza seleccionada
+LIGHT_GREEN = (144, 238, 144)  # Movimientos legales
+RED = (255, 0, 0)           # Jaque mate
+ORANGE = (255, 165, 0)      # Jaque/empate
+```
+📈 Resultados Esperados
+🎯 Evolución del Aprendizaje
+📊 Métricas de Éxito
+🏆 Objetivos a Corto Plazo (10 partidas)
+<input disabled="" type="checkbox"> Tasa de victoria > 30%
+<input disabled="" type="checkbox"> Precisión > 65%
+<input disabled="" type="checkbox"> Pérdida < 0.5
+<input disabled="" type="checkbox"> Tiempo de respuesta < 200ms
+🎯 Objetivos a Mediano Plazo (50 partidas)
+<input disabled="" type="checkbox"> Tasa de victoria > 60%
+<input disabled="" type="checkbox"> Precisión > 80%
+<input disabled="" type="checkbox"> Pérdida < 0.3
+<input disabled="" type="checkbox"> Reconocimiento de patrones básicos
+🚀 Objetivos a Largo Plazo (100+ partidas)
+<input disabled="" type="checkbox"> Tasa de victoria > 80%
+<input disabled="" type="checkbox"> Precisión > 90%
+<input disabled="" type="checkbox"> Pérdida < 0.2
+<input disabled="" type="checkbox"> Juego estratégico avanzado
 ## 🛠️ Arquitectura Técnica
 
-### 🧩 Componentes Principales
-1. **main.py**: Interfaz gráfica, bucle del juego, manejo de eventos
-2. **chess_neural_network.py**: Red neuronal, evaluación, entrenamiento
-3. **neural_data/**: Directorio con modelos y datos CSV
-4. **Images/**: Sprites de las piezas de ajedrez
+### 🧩 Estructura del Proyecto
 
-### 🔗 Flujo de Datos
-1. **Jugada del Usuario** → **Actualización del Tablero** → **Evaluación Neural**
-2. **Movimiento de IA** → **Entrenamiento** → **Guardado de Datos**
-3. **Fin de Partida** → **Análisis** → **Mejora del Modelo**
+```
+Chess-algoritmo/
+├── main.py                    # Interfaz gráfica y lógica principal
+├── chess_neural_network.py    # Red neuronal y aprendizaje
+├── README.md                  # Documentación completa
+├── requirements.txt           # Dependencias del proyecto
+├── Images/                    # Sprites de las piezas
+│   ├── wK.png, wQ.png, wR.png, wB.png, wN.png, wP.png
+│   └── bK.png, bQ.png, bR.png, bB.png, bN.png, bP.png
+└── neural_data/              # Datos de entrenamiento
+    ├── advanced_chess_model.json
+    ├── experience_replay.json
+    ├── game_statistics.csv
+    ├── move_analysis.csv
+    ├── position_evaluations.csv
+    ├── learning_progress.csv
+    └── training_summary.json
+```
 
-## 🤝 Contribuciones
+### 🔗 Diagrama de Componentes
 
-Este proyecto está diseñado para ser educativo y demostrar conceptos de:
-- **Inteligencia Artificial**: Redes neuronales aplicadas a juegos
-- **Aprendizaje Automático**: Aprendizaje por refuerzo y experience replay
-- **Análisis de Datos**: Visualización y análisis de progreso
-- **Interfaz de Usuario**: Diseño intuitivo y funcional
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    ARQUITECTURA DEL SISTEMA                     │
+└─────────────────────────────────────────────────────────────────┘
 
-¡Disfruta viendo cómo la IA aprende y mejora su juego! 🎉
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   INTERFAZ      │    │   LÓGICA DE     │    │   INTELIGENCIA  │
+│   GRÁFICA       │◄──►│     JUEGO       │◄──►│   ARTIFICIAL    │
+│                 │    │                 │    │                 │
+│• Pygame         │    │• Tablero        │    │• Red Neuronal   │
+│• Botones        │    │• Movimientos    │    │• Evaluación     │
+│• Tablero        │    │• Reglas         │    │• Aprendizaje    │
+│• Animaciones    │    │• Validación     │    │• Experience     │
+│• Menús          │    │• Estado         │    │  Replay         │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                        │                        │
+         │                        │                        │
+         ▼                        ▼                        ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   EVENTOS       │    │   DATOS DE      │    │   PERSISTENCIA  │
+│                 │    │   ANÁLISIS      │    │                 │
+│• Mouse          │    │• Estadísticas   │    │• Modelo         │
+│• Teclado        │    │• Movimientos    │    │• Experiencias   │
+│• Temporizador   │    │• Evaluaciones   │    │• Configuración  │
+│• Ventana        │    │• Progreso       │    │• Logs           │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### 📡 Flujo de Datos
+
+```
+    ENTRADA DEL USUARIO
+            │
+            ▼
+    ┌─────────────────┐
+    │   VALIDACIÓN    │
+    │   MOVIMIENTO    │
+    └─────────────────┘
+            │
+            ▼
+    ┌─────────────────┐
+    │   ACTUALIZAR    │
+    │    TABLERO      │
+    └─────────────────┘
+            │
+            ▼
+    ┌─────────────────┐
+    │   EVALUACIÓN    │
+    │   POSICIÓN      │
+    └─────────────────┘
+            │
+            ▼
+    ┌─────────────────┐
+    │   GUARDAR       │
+    │    DATOS        │
+    └─────────────────┘
+            │
+            ▼
+    ┌─────────────────┐
+    │   ENTRENAMIENTO │
+    │   RED NEURONAL  │
+    └─────────────────┘
+            │
+            ▼
+    ┌─────────────────┐
+    │   ACTUALIZAR    │
+    │    MODELO       │
+    └─────────────────┘
+```
+## 🔮 Características Futuras
+
+### 🎯 Roadmap de Desarrollo
+
+#### Versión 2.0 - Análisis Avanzado
+- [ ] **Análisis de Aperturas**: Base de datos de aperturas clásicas
+- [ ] **Evaluación de Finales**: Conocimiento teórico de finales
+- [ ] **Análisis de Partidas**: Replay con evaluación paso a paso
+- [ ] **Diferentes Niveles**: Múltiples niveles de dificultad
+
+#### Versión 2.1 - Mejoras Visuales
+- [ ] **Temas Personalizables**: Diferentes estilos de tablero
+- [ ] **Animaciones**: Movimientos suaves de piezas
+- [ ] **Efectos Sonoros**: Audio para movimientos y capturas
+- [ ] **Modo 3D**: Tablero en tres dimensiones
+
+#### Versión 2.2 - Multijugador
+- [ ] **Juego Online**: Partidas contra otros jugadores
+- [ ] **Torneos**: Sistema de competición
+- [ ] **Ranking**: Sistema de puntuación ELO
+- [ ] **Chat**: Comunicación entre jugadores
+
+#### Versión 3.0 - IA Avanzada
+- [ ] **Redes Convolucionales**: CNN para reconocimiento de patrones
+- [ ] **Attention Mechanisms**: Mecanismos de atención
+- [ ] **Transfer Learning**: Transferencia de conocimiento
+- [ ] **Ensemble Methods**: Combinación de múltiples modelos
+
+## 📚 Referencias y Agradecimientos
+
+### 🧠 Inspiración Técnica
+- **AlphaZero**: Arquitectura de autoaprendizaje
+- **Stockfish**: Motor de ajedrez tradicional
+- **Leela Chess Zero**: Red neuronal para ajedrez
+- **DeepMind**: Investigación en IA para juegos
+
+### 📖 Librerías Utilizadas
+- **pygame**: Interfaz gráfica y manejo de eventos
+- **python-chess**: Lógica del juego de ajedrez
+- **numpy**: Operaciones matemáticas y matrices
+- **pandas**: Análisis y manipulación de datos
+
+### 🤝 Contribuciones
+Este proyecto es de código abierto y educativo. Contribuciones bienvenidas:
+
+- 🐛 Reportar bugs
+- 💡 Sugerir mejoras
+- 🔧 Añadir funcionalidades
+- 📝 Mejorar documentación
+
+## 🎉 Conclusión
+
+Este proyecto demuestra la aplicación práctica de:
+
+- **Redes Neuronales Profundas** en juegos de estrategia
+- **Aprendizaje por Refuerzo** con experience replay
+- **Análisis de Datos** para el seguimiento del progreso
+- **Interfaces Gráficas** intuitivas y funcionales
+- **Arquitecturas Híbridas** que combinan técnicas tradicionales y modernas
+
+¡Disfruta viendo cómo la inteligencia artificial aprende y domina el juego más antiguo del mundo! 🎯♟️🧠
+
+---
+
+**Desarrollado con ❤️ para la comunidad de IA y ajedrez**
+
+¿Preguntas? ¿Sugerencias? ¡Abre un issue o contribuye al proyecto!
+📖 Librerías Utilizadas
+pygame: Interfaz gráfica y manejo de eventos
+python-chess: Lógica del juego de ajedrez
+numpy: Operaciones matemáticas y matrices
+pandas: Análisis y manipulación de datos
+🤝 Contribuciones
+Este proyecto es de código abierto y educativo. Contribuciones bienvenidas:
+
+🐛 Reportar bugs
+💡 Sugerir mejoras
+🔧 Añadir funcionalidades
+📝 Mejorar documentación
+🎉 Conclusión
+Este proyecto demuestra la aplicación práctica de:
+
+Redes Neuronales Profundas en juegos de estrategia
+Aprendizaje por Refuerzo con experience replay
+Análisis de Datos para el seguimiento del progreso
+Interfaces Gráficas intuitivas y funcionales
+Arquitecturas Híbridas que combinan técnicas tradicionales y modernas
+¡Disfruta viendo cómo la inteligencia artificial aprende y domina el juego más antiguo del mundo! 🎯♟️🧠
+
+Desarrollado con ❤️ para la comunidad de IA y ajedrez
+
+¿Preguntas? ¿Sugerencias? ¡Abre un issue o contribuye al proyecto!
+
+Código similar encontrado con 4 tipos de licencias - Ver coincidencias
+
+## 🚀 Instalación y Uso
+
+### 📋 Requisitos del Sistema
+
+```bash
+# Dependencias principales
+pip install pygame==2.6.1
+pip install python-chess==1.999
+pip install numpy==1.24.3
+pip install pandas==2.0.3
+
+# Opcional para análisis avanzado
+pip install matplotlib==3.7.1
+pip install seaborn==0.12.2
+
+# Clonar o descargar el proyecto
+cd Chess-algoritmo
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Ejecutar el juego
+python main.py
+
+```
+
+
+### 📊 Métricas de Éxito
+
+#### 🏆 Objetivos a Corto Plazo (10 partidas)
+- [ ] Tasa de victoria > 30%
+- [ ] Precisión > 65%
+- [ ] Pérdida < 0.5
+- [ ] Tiempo de respuesta < 200ms
+
+#### 🎯 Objetivos a Mediano Plazo (50 partidas)
+- [ ] Tasa de victoria > 60%
+- [ ] Precisión > 80%
+- [ ] Pérdida < 0.3
+- [ ] Reconocimiento de patrones básicos
+
+#### 🚀 Objetivos a Largo Plazo (100+ partidas)
+- [ ] Tasa de victoria > 80%
+- [ ] Precisión > 90%
+- [ ] Pérdida < 0.2
+- [ ] Juego estratégico avanzado
+
+
+
+
+    ┌─────────────────────────────────────────────────────────────────┐
+│                    ARQUITECTURA DEL SISTEMA                     │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   INTERFAZ      │    │   LÓGICA DE     │    │   INTELIGENCIA  │
+│   GRÁFICA       │◄──►│     JUEGO       │◄──►│   ARTIFICIAL    │
+│                 │    │                 │    │                 │
+│• Pygame         │    │• Tablero        │    │• Red Neuronal   │
+│• Botones        │    │• Movimientos    │    │• Evaluación     │
+│• Tablero        │    │• Reglas         │    │• Aprendizaje    │
+│• Animaciones    │    │• Validación     │    │• Experience     │
+│• Menús          │    │• Estado         │    │  Replay         │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                        │                        │
+         │                        │                        │
+         ▼                        ▼                        ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   EVENTOS       │    │   DATOS DE      │    │   PERSISTENCIA  │
+│                 │    │   ANÁLISIS      │    │                 │
+│• Mouse          │    │• Estadísticas   │    │• Modelo         │
+│• Teclado        │    │• Movimientos    │    │• Experiencias   │
+│• Temporizador   │    │• Evaluaciones   │    │• Configuración  │
+│• Ventana        │    │• Progreso       │    │• Logs           │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+
+ENTRADA DEL USUARIO
+        │
+        ▼
+┌─────────────────┐
+│   VALIDACIÓN    │
+│   MOVIMIENTO    │
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│   ACTUALIZAR    │
+│    TABLERO      │
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│   EVALUACIÓN    │
+│   POSICIÓN      │
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│   GUARDAR       │
+│    DATOS        │
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│   ENTRENAMIENTO │
+│   RED NEURONAL  │
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│   ACTUALIZAR    │
+│    MODELO       │
+└─────────────────┘

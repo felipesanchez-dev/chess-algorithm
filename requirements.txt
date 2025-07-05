@@ -1,0 +1,12 @@
+# Dependencias principales del proyecto
+pygame==2.6.1
+python-chess==1.999
+numpy==1.24.3
+pandas==2.0.3
+
+# Opcional para análisis avanzado
+matplotlib==3.7.1
+seaborn==0.12.2
+
+# Dependencias adicionales
+scipy==1.11.3
