@@ -411,25 +411,6 @@ LIGHT_GREEN = (144, 238, 144)  # Movimientos legales
 RED = (255, 0, 0)           # Jaque mate
 ORANGE = (255, 165, 0)      # Jaque/empate
 ```
-📈 Resultados Esperados
-🎯 Evolución del Aprendizaje
-📊 Métricas de Éxito
-🏆 Objetivos a Corto Plazo (10 partidas)
-<input disabled="" type="checkbox"> Tasa de victoria > 30%
-<input disabled="" type="checkbox"> Precisión > 65%
-<input disabled="" type="checkbox"> Pérdida < 0.5
-<input disabled="" type="checkbox"> Tiempo de respuesta < 200ms
-🎯 Objetivos a Mediano Plazo (50 partidas)
-<input disabled="" type="checkbox"> Tasa de victoria > 60%
-<input disabled="" type="checkbox"> Precisión > 80%
-<input disabled="" type="checkbox"> Pérdida < 0.3
-<input disabled="" type="checkbox"> Reconocimiento de patrones básicos
-🚀 Objetivos a Largo Plazo (100+ partidas)
-<input disabled="" type="checkbox"> Tasa de victoria > 80%
-<input disabled="" type="checkbox"> Precisión > 90%
-<input disabled="" type="checkbox"> Pérdida < 0.2
-<input disabled="" type="checkbox"> Juego estratégico avanzado
-## 🛠️ Arquitectura Técnica
 
 ### 🧩 Estructura del Proyecto
 
@@ -586,37 +567,6 @@ Este proyecto demuestra la aplicación práctica de:
 ¡Disfruta viendo cómo la inteligencia artificial aprende y domina el juego más antiguo del mundo! 🎯♟️🧠
 
 ---
-
-**Desarrollado con ❤️ para la comunidad de IA y ajedrez**
-
-¿Preguntas? ¿Sugerencias? ¡Abre un issue o contribuye al proyecto!
-📖 Librerías Utilizadas
-pygame: Interfaz gráfica y manejo de eventos
-python-chess: Lógica del juego de ajedrez
-numpy: Operaciones matemáticas y matrices
-pandas: Análisis y manipulación de datos
-🤝 Contribuciones
-Este proyecto es de código abierto y educativo. Contribuciones bienvenidas:
-
-🐛 Reportar bugs
-💡 Sugerir mejoras
-🔧 Añadir funcionalidades
-📝 Mejorar documentación
-🎉 Conclusión
-Este proyecto demuestra la aplicación práctica de:
-
-Redes Neuronales Profundas en juegos de estrategia
-Aprendizaje por Refuerzo con experience replay
-Análisis de Datos para el seguimiento del progreso
-Interfaces Gráficas intuitivas y funcionales
-Arquitecturas Híbridas que combinan técnicas tradicionales y modernas
-¡Disfruta viendo cómo la inteligencia artificial aprende y domina el juego más antiguo del mundo! 🎯♟️🧠
-
-Desarrollado con ❤️ para la comunidad de IA y ajedrez
-
-¿Preguntas? ¿Sugerencias? ¡Abre un issue o contribuye al proyecto!
-
-Código similar encontrado con 4 tipos de licencias - Ver coincidencias
 
 ## 🚀 Instalación y Uso
 
